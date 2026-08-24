@@ -10,6 +10,7 @@ jobs:
     name: 更新咪咕直播源
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
     steps:
       - name: 访问更新接口
         run: |
@@ -17,13 +18,17 @@ jobs:
           response=$(curl -s -w "\n%{http_code}" "https://iptv.xinsite.qzz.io/admin_handler.php?action=update" --max-time 30)
           http_code=$(echo "$response" | tail -n1)
           body=$(echo "$response" | head -n -1)
+
           echo "HTTP 状态码: $http_code"
           echo "响应内容: $body"
+
           if [ "$http_code" -eq 200 ]; then
-            echo "✅ 更新请求成功"
+            echo "[SUCCESS] 更新请求成功"
           else
-            echo "❌ 更新请求失败，状态码: $http_code"
+            echo "[FAILED] 更新请求失败，状态码: $http_code"
             exit 1
           fi
+
       - name: 记录运行时间
-        run: echo "更新完成时间: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+        run: |
+          echo "更新完成时间: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
