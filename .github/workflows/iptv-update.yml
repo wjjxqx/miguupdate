@@ -16,6 +16,7 @@ jobs:
         run: |
           echo "正在请求更新接口..."
           response=$(curl -s -w "\n%{http_code}" "https://iptv.xinsite.qzz.io/admin_handler.php?action=update" --max-time 30)
+          response=$(curl -s -w "\n%{http_code}" "https://45080.xinsite.top/admin_handler.php?action=update" --max-time 30)
           http_code=$(echo "$response" | tail -n1)
           body=$(echo "$response" | head -n -1)
 
